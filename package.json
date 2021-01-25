@@ -1,0 +1,15 @@
+{
+  "name": "assignment2",
+  "version": "0.0.1",
+  "description": "Assignment 2 for WEB4222@Seneca",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Maickel Siqueira",
+  "license": "ISC",
+  "dependencies": {
+    "jquery": "^3.5.1",
+    "lodash": "^4.17.20"
+  }
+}
