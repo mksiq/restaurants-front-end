@@ -85,13 +85,13 @@
           <nav aria-label="Restaurant navigation">
             <ul class="pagination justify-content-center"">
               <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous">
+                <a class="page-link" href="#" aria-label="Previous" id="previous">
                   <span aria-hidden="true">&laquo;</span>
                 </a>
               </li>
-              <li class="page-item"><a class="page-link" href="#">1</a></li>
+              <li class="page-item"><a class="page-link" href="#" id="page">1</a></li>
               <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
+                <a class="page-link" href="#" aria-label="Next" id="next">
                   <span aria-hidden="true">&raquo;</span>
                 </a>
               </li>
@@ -105,10 +105,11 @@
     </button>
     
     <!-- Modal -->
-    <div class="modal fade" id="leaftlet" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="leaftlet" tabindex="-1" aria-labelledby="mapModal" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
+            <h5 class="modal-title" id="mapModal">Modal title</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">

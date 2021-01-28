@@ -7,26 +7,26 @@ var map = null;
 console.log("main.js working");
 
 const uri =
-  "https://web422-assignment1-msiqueira.herokuapp.com/api/restaurants?";
+  "https://web422-assignment1-msiqueira.herokuapp.com/api/restaurants";
 
 const tableTemplate = _.template(`
-    <tbody>
+    
     <% _.forEach(restaurantData, function(restaurant) {
         %>  
-        <tr scope="row" data-id="<%- restaurant._id %>">
+        <tr scope="row" data-id="<%- restaurant._id %>" data-bs-toggle="modal" data-bs-target="#leaftlet">
         <td><%- restaurant.name %></td>
         <td><%- restaurant.cuisine %></td>
         <td><%- restaurant.address.building%> <%- restaurant.address.street  %></td>
         <td><%- avg(restaurant.grades).toFixed(2) %></td>
         </tr> <% }); %>
-    </tbody>`);
+    `);
 
 function loadRestaurantData() {
-  fetch(`${uri}page=${page}&perPage=${perPage}`).then((res) => {
+  fetch(`${uri}?page=${page}&perPage=${perPage}`).then((res) => {
     res.json().then((data) => {
       restaurantData = data.restaurants;
       let rows = tableTemplate({ restaurantData: restaurantData });
-      $("#restaurant-table").append(rows);
+      $("#restaurant-table tbody").append(rows);
     });
   });
 }
@@ -37,14 +37,46 @@ function avg(grades) {
 
 $(function () {
   loadRestaurantData();
-  console.log("before click");
+
+  //watch for click on row
   $("#restaurant-table tbody").on("click", "tr", function () {
-    // watch the tbody element contained within an element with class "my-table" and execute code whenever new (or existing) <tr> elements are clicked
-    console.log("table row clicked!");
+    fetch(`${uri}/${$(this).attr("data-id")}`).then((res) =>
+      res.json().then((data) => {
+        currentRestaurant = data.restaurant;
+        $(".modal-title").html(currentRestaurant.name);
+        $("#restaurant-address").html(`${currentRestaurant.address.building} ${currentRestaurant.address.street}`)
+      })
+    );
   });
-  console.log("after click");
+
+  nextPage();
+  previousPage();
 });
 
+// move to next page
+function nextPage() {
+    $("#next").on("click", function (e) {
+        e.preventDefault();
+        page++;
+        $("#restaurant-table tbody").empty();
+        loadRestaurantData();
+        $("#page").html(page);
+    });
+}
+
+// move to previous page
+function previousPage() {
+    $("#previous").on("click", function (e) {
+        e.preventDefault();
+        if($("#page").html() > 1) {
+
+            page--;
+            $("#restaurant-table tbody").empty();
+            loadRestaurantData();
+            $("#page").html(page);
+        }
+    });
+}
 // $(document).ready(function () {
 //   // const test = new Promise(fillTable(restaurantData)).then( ready => console.log(ready));
 
