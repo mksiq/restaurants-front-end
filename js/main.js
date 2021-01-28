@@ -61,6 +61,7 @@ function nextPage() {
         $("#restaurant-table tbody").empty();
         loadRestaurantData();
         $("#page").html(page);
+        $("#previous").removeClass("disabled");
     });
 }
 
@@ -69,11 +70,13 @@ function previousPage() {
     $("#previous").on("click", function (e) {
         e.preventDefault();
         if($("#page").html() > 1) {
-
             page--;
             $("#restaurant-table tbody").empty();
             loadRestaurantData();
             $("#page").html(page);
+        }
+        if(page == 1) {
+            $("#previous").addClass("disabled");
         }
     });
 }
