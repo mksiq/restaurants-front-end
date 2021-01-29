@@ -40,6 +40,7 @@
     ></script>    
        <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
     <script src="js/main.js"></script>
+    <link rel="stylesheet" href="css/main.css">
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -100,12 +101,9 @@
         </div>
       </div>
     </div>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#leaftlet">
-      Launch demo modal
-    </button>
     
     <!-- Modal -->
-    <div class="modal fade" id="leaftlet" tabindex="-1" aria-labelledby="mapModal" aria-hidden="true">
+    <div class="modal fade" id="restaurant-modal" tabindex="-1" aria-labelledby="mapModal" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -113,7 +111,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <div id="leaflet"></div><div id="restaurant-address"></div>
+            <div id="leaflet"  class="leaflet-container">A</div><div id="restaurant-address"></div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -121,6 +119,5 @@
         </div>
       </div>
     </div>
-    
   </body>
 </html>
