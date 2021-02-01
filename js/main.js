@@ -4,8 +4,6 @@ var page = 1;
 const perPage = 10;
 var map = null;
 
-console.log("main.js working");
-
 const uri =
   "https://web422-assignment1-msiqueira.herokuapp.com/api/restaurants";
 
@@ -20,35 +18,31 @@ const tableTemplate = _.template(`
         </tr> <% }); %>
     `);
 
-function loadRestaurantData() {
-  fetch(`${uri}?page=${page}&perPage=${perPage}`).then((res) => {
-    res.json().then((data) => {
-      restaurantData = data.restaurants;
-      let rows = tableTemplate({ restaurantData: restaurantData });
-      $("#restaurant-table tbody").append(rows);
-    });
-  });
+async function loadRestaurantData() {
+  const response = await fetch(`${uri}?page=${page}&perPage=${perPage}`);
+  const data = await response.json();
+  restaurantData = data.restaurants;
+  let rows = tableTemplate({ restaurantData: restaurantData });
+  $("#restaurant-table tbody").append(rows);
 }
 
 function avg(grades) {
   return grades.reduce((acc, cur) => acc + cur.score, 0) / grades.length;
 }
 
-$(function () {
-  loadRestaurantData();
+$(async function () {
+  await loadRestaurantData();
 
   //watch for click on row
-  $("#restaurant-table tbody").on("click", "tr", function () {
-    fetch(`${uri}/${$(this).attr("data-id")}`).then((res) =>
-      res.json().then((data) => {
-        currentRestaurant = data.restaurant;
-        $(".modal-title").html(currentRestaurant.name);
-        $("#restaurant-address").html(
-          `${currentRestaurant.address.building} ${currentRestaurant.address.street}`
-        );
-        loadMap();
-      })
+  $("#restaurant-table tbody").on("click", "tr", async function () {
+    const response = await fetch(`${uri}/${$(this).attr("data-id")}`);
+    const data = await response.json();
+    currentRestaurant = data.restaurant;
+    $(".modal-title").html(currentRestaurant.name);
+    $("#restaurant-address").html(
+      `${currentRestaurant.address.building} ${currentRestaurant.address.street}`
     );
+    loadMap();
   });
 
   nextPage();
