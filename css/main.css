@@ -1,4 +1,5 @@
-html, body {
+.html,
+body {
   width: 100%;
 }
 #restaurant-table tr:hover {
@@ -6,4 +7,38 @@ html, body {
 }
 #leaflet {
   height: 400px;
+}
+
+/* https://colorhunt.co/palette/252807 */
+
+body {
+  background-color: #f6f5f5 !important;
+}
+
+.navbar {
+  background-color: #1687a7 !important;
+  color: #f6f5f5 !important;
+  border-bottom-style: solid;
+  border-color: #276678;
+  border-bottom-width: 1px;
+}
+
+.navbar a {
+  color: #f6f5f5 !important;
+}
+
+.table {
+  color: #276678 !important;
+}
+
+tr {
+  border-color: #d3e0ea;
+}
+
+tr:hover {
+  background-color: #e7f5ff;
+}
+
+.modal {
+  color: #276678 !important;
 }

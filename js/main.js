@@ -1,3 +1,4 @@
+// global variables
 var restaurantData = [];
 var currentRestaurant = {};
 var page = 1;
@@ -18,19 +19,8 @@ const tableTemplate = _.template(`
         </tr> <% }); %>
     `);
 
-async function loadRestaurantData() {
-  const response = await fetch(`${uri}?page=${page}&perPage=${perPage}`);
-  const data = await response.json();
-  restaurantData = data.restaurants;
-  let rows = tableTemplate({ restaurantData: restaurantData });
-  $("#restaurant-table tbody").append(rows);
-}
-
-function avg(grades) {
-  return grades.reduce((acc, cur) => acc + cur.score, 0) / grades.length;
-}
-
 $(async function () {
+  displayWaitForServer();
   await loadRestaurantData();
 
   //watch for click on row
@@ -48,9 +38,10 @@ $(async function () {
   nextPage();
 
   previousPage();
-  $('#restaurant-modal').on('hidden.bs.modal', function() {
-    if(map) {
-        map.remove();
+
+  $("#restaurant-modal").on("hidden.bs.modal", function () {
+    if (map) {
+      map.remove();
     }
   });
 });
@@ -60,7 +51,6 @@ function nextPage() {
   $("#next").on("click", function (e) {
     e.preventDefault();
     page++;
-    $("#restaurant-table tbody").empty();
     loadRestaurantData();
     $("#page").html(page);
     $("#previous").removeClass("disabled");
@@ -73,7 +63,6 @@ function previousPage() {
     e.preventDefault();
     if ($("#page").html() > 1) {
       page--;
-      $("#restaurant-table tbody").empty();
       loadRestaurantData();
       $("#page").html(page);
     }
@@ -98,4 +87,28 @@ function loadMap() {
     currentRestaurant.address.coord[1],
     currentRestaurant.address.coord[0],
   ]).addTo(map);
+}
+
+/**
+ *  Gives message while waiting for heroku to wake up
+ */
+function displayWaitForServer() {
+  const temp = $("<tr></tr>").append(
+    "<p>Data is loading. Wait for a few seconds for it to load. If it does not: Please refresh page.</p>"
+  );
+  $("#restaurant-table tbody").append(temp);
+}
+
+async function loadRestaurantData() {
+  const response = await fetch(`${uri}?page=${page}&perPage=${perPage}`);
+  const data = await response.json();
+  restaurantData = data.restaurants;
+  let rows = tableTemplate({ restaurantData: restaurantData });
+  // Makes sure the table is empty before inserting rows
+  $("#restaurant-table tbody").empty();
+  $("#restaurant-table tbody").append(rows);
+}
+
+function avg(grades) {
+  return grades.reduce((acc, cur) => acc + cur.score, 0) / grades.length;
 }
