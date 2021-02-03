@@ -32,6 +32,7 @@ $(async function () {
     $("#restaurant-address").html(
       `${currentRestaurant.address.building} ${currentRestaurant.address.street}`
     );
+
     loadMap();
   });
 
@@ -87,6 +88,12 @@ function loadMap() {
     currentRestaurant.address.coord[1],
     currentRestaurant.address.coord[0],
   ]).addTo(map);
+
+  // Bootstrap modal changes the dimension of the map so it does not show the tiles properly
+  // This fixes it:  (Source: https://leafletjs.com/reference-1.0.3.html#map-invalidatesize )
+  setTimeout(() => {
+    map.invalidateSize();
+  }, 200);
 }
 
 /**
